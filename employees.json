@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Ayesha Khan",
+        "department": "Engineering",
+        "role": "Backend Developer"
+    },
+    {
+        "name": "Bilal Ahmed",
+        "department": "Data Science",
+        "role": "Machine Learning Engineer"
+    },
+    {
+        "name": "Sara Malik",
+        "department": "Human Resources",
+        "role": "HR Manager"
+    },
+    {
+        "name": "Usman Tariq",
+        "department": "Marketing",
+        "role": "Content Strategist"
+    }
+]

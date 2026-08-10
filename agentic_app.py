@@ -2,9 +2,7 @@ import asyncio
 from openai import AsyncOpenAI
 from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabled
 
-# 1. Turn off tracing.
-#    Tracing tries to send run data to OpenAI's servers, which needs an
-#    OpenAI API key. We are running locally on Ollama, so we switch it off.
+
 set_tracing_disabled(True)
 
 # 2. Create a client that points at Ollama instead of OpenAI.

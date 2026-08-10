@@ -1,6 +1,7 @@
 
 from agents import function_tool
 import json   
+from datetime import datetime  
 
 
 
@@ -17,8 +18,20 @@ def calculator(expression: str) -> str:
 
 
 
+#tool to get the current date and time 
+@function_tool
+def get_current_time() -> str:
+    """Return the current system date and time. Use this whenever the user asks what the date or time is."""
+    print("get_current_time called")   # so you see when the tool fires
+
+    now = datetime.now()                                    # grab the current moment
+    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")      # turn it into readable text
+
+    print("get_current_time result:", formatted_time)
+    return formatted_time
 
 
+#tool to looksup employee information from the json file
 @function_tool
 def get_employee_info(employee_name: str) -> str:
     """Look up an employee's department and role by their name. Use this for questions about a specific employee."""

@@ -251,3 +251,8 @@ knowledge_base.json / CSV
 ```
 
 This separation makes the application easier to maintain and allows individual tools or the knowledge-base search implementation to be modified without changing the rest of the application.
+
+Interface :
+
+<img width="1541" height="527" alt="image" src="https://github.com/user-attachments/assets/dbcd5156-9227-42a0-9f5c-6598dfecfc63" />
+

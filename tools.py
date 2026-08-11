@@ -64,7 +64,7 @@ def get_employee_info(employee_name: str) -> str:
 def search_knowledge_base(query: str):
     query_words = query.lower().split()
 
-    with open("knowledge.json", "r", encoding="utf-8") as f:
+    with open("employees.json", "r", encoding="utf-8") as f:
         documents = json.load(f)
 
     results = []

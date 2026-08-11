@@ -1,4 +1,7 @@
 import os
+from pydantic import BaseModel
+import json
+
 from dotenv import load_dotenv
 import asyncio
 from openai import AsyncOpenAI
@@ -7,24 +10,15 @@ from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabl
 from tools import calculator
 from tools import get_current_time
 from tools import get_employee_info
-fomm tools import search_knowledge_base
-
-
-from pydantic import BaseModel
-
-import json
-
+from tools import search_knowledge_base
 
 #reading the env file to get api key and base url
 load_dotenv()
 set_tracing_disabled(True)
 
-
-
 #use a pydantic class to add structure to the agent's output
 class output_structure(BaseModel):
-    tool_ouput : str
-    model_ouptt : str
+    output : str
     sources : str
 
 
@@ -49,12 +43,3 @@ agent = Agent(
     output_type=output_structure
 )
 
-#using the Runner in the async function to run the agent with a prompt and print the final output
-async def main():
-
-
-    prompt = input("Enter your prompt: ")
-    result = await Runner.run(agent, prompt)
-    print(result.final_output)
-
-asyncio.run(main())

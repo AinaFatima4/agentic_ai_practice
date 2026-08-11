@@ -1,9 +1,10 @@
+import json
 
 from agents import function_tool
 import json   
 from datetime import datetime  
+from logger import logger
 
-import json
 
 
 
@@ -12,11 +13,10 @@ import json
 def calculator(expression: str) -> str:
     """Evaluate a mathematical expression and return the result. Use this for any arithmetic, for example '47 * 89' or '(5 + 3) / 2'."""
 
-    print("calculator called with:", expression)   
-
+    logger.info(f"TOOL SELECTED: calculator | INPUT: {expression}")
     result_value = eval(expression)                 # turns the text "47 * 89" into the number 4183
 
-    print("calculator tool result:", result_value)       # so you see what it returns
+    logger.info(f"TOOL RESULT: calculator | OUTPUT: {result_value}")
     return str(result_value)
 
 
@@ -25,12 +25,12 @@ def calculator(expression: str) -> str:
 @function_tool
 def get_current_time() -> str:
     """Return the current system date and time. Use this whenever the user asks what the date or time is."""
-    print("get_current_time called")   # so you see when the tool fires
+    logger.info("TOOL SELECTED: get_current_time")
 
     now = datetime.now()                                    # grab the current moment
     formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")      # turn it into readable text
 
-    print("get_current_time result:", formatted_time)
+    logger.info(f"TOOL RESULT: get_current_time | OUTPUT: {formatted_time}")
     return formatted_time
 
 
@@ -39,7 +39,7 @@ def get_current_time() -> str:
 def get_employee_info(employee_name: str) -> str:
     """Look up an employee's department and role by their name. Use this for questions about a specific employee."""
 
-    print("get_employee_info called with:", employee_name)
+    logger.info(f"TOOL SELECTED: get_employee_info | INPUT: {employee_name}")
 
     # open and read the JSON file into a Python list of dicts
     with open("employees.json", "r") as file:
@@ -50,11 +50,11 @@ def get_employee_info(employee_name: str) -> str:
     for employee in employees:
         if employee["name"].lower() == employee_name.lower():
             result = f"{employee['name']} works in the {employee['department']} department as a {employee['role']}."
-            print("get_employee_info result:", result)
+            logger.info(f"TOOL RESULT: get_employee_info | OUTPUT: {result}")
             return result
 
     not_found = f"No employee named '{employee_name}' was found."
-    print("get_employee_info result:", not_found)
+    logger.info(f"TOOL RESULT: get_employee_info | OUTPUT: {not_found}")
     return not_found
 
 
@@ -66,6 +66,7 @@ def search_knowledge_base(query: str):
 
     with open("employees.json", "r", encoding="utf-8") as f:
         documents = json.load(f)
+    logger.info(f"TOOL SELECTED: search_knowledge_base | INPUT: {query}")
 
     results = []
 
@@ -79,4 +80,6 @@ def search_knowledge_base(query: str):
 
     results.sort(reverse=True, key=lambda x: x[0])
 
+    logger.info(f"TOOL OUTPUT: search_knowledge_base | OUTPUT: {results[:5]}")
+    
     return [document for score, document in results[:5]]

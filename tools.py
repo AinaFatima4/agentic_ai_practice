@@ -3,6 +3,9 @@ from agents import function_tool
 import json   
 from datetime import datetime  
 
+import json
+
+
 
 
 @function_tool
@@ -53,3 +56,27 @@ def get_employee_info(employee_name: str) -> str:
     not_found = f"No employee named '{employee_name}' was found."
     print("get_employee_info result:", not_found)
     return not_found
+
+
+
+#tool to search the knowledge base for relevant documents based on a query
+@function_tool
+def search_knowledge_base(query: str):
+    query_words = query.lower().split()
+
+    with open("knowledge.json", "r", encoding="utf-8") as f:
+        documents = json.load(f)
+
+    results = []
+
+    for document in documents:
+        text = json.dumps(document).lower()
+
+        score = sum(word in text for word in query_words)
+
+        if score > 0:
+            results.append((score, document))
+
+    results.sort(reverse=True, key=lambda x: x[0])
+
+    return [document for score, document in results[:5]]

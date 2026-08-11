@@ -7,14 +7,21 @@ from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabl
 from tools import calculator
 from tools import get_current_time
 from tools import get_employee_info
+fomm tools import search_knowledge_base
 
 
 from pydantic import BaseModel
+
+import json
+
 
 #reading the env file to get api key and base url
 load_dotenv()
 set_tracing_disabled(True)
 
+
+
+#use a pydantic class to add structure to the agent's output
 class output_structure(BaseModel):
     tool_ouput : str
     model_ouptt : str
@@ -34,10 +41,11 @@ local_model = OpenAIChatCompletionsModel(
 #agent that uses the local model and acts like a reseacrh assistane
 agent = Agent(
     name='Research Assistant',
-    instructions="Act as an experienced research assistant,analyze the user's prompt and provide a dedicated researched answer with relevent sources u got " \
-    "the information from , DONT TRY TO DO EVERYTHING YOURSELF, USE A TOOL IF IT FITS THE SCENARIO",
+    instructions="Act as a reseacrh assistant to answer user queries, use the relevant tools when neccessary, if tools are not" \
+    "relevent you may use your own knowledge base"
+    "provide source of your output - if you used a tool - give the tool name as the source",
     model=local_model,
-    tools=[calculator, get_current_time, get_employee_info],
+    tools=[calculator, get_current_time, get_employee_info , search_knowledge_base],
     output_type=output_structure
 )
 

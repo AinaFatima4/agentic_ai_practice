@@ -8,9 +8,18 @@ from tools import calculator
 from tools import get_current_time
 from tools import get_employee_info
 
+
+from pydantic import BaseModel
+
 #reading the env file to get api key and base url
 load_dotenv()
 set_tracing_disabled(True)
+
+class output_structure(BaseModel):
+    tool_ouput : str
+    model_ouptt : str
+    sources : str
+
 
 #making a basic local model using the env variables
 local_model = OpenAIChatCompletionsModel(
@@ -28,7 +37,8 @@ agent = Agent(
     instructions="Act as an experienced research assistant,analyze the user's prompt and provide a dedicated researched answer with relevent sources u got " \
     "the information from , DONT TRY TO DO EVERYTHING YOURSELF, USE A TOOL IF IT FITS THE SCENARIO",
     model=local_model,
-    tools=[calculator, get_current_time, get_employee_info]
+    tools=[calculator, get_current_time, get_employee_info],
+    output_type=output_structure
 )
 
 #using the Runner in the async function to run the agent with a prompt and print the final output

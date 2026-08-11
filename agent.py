@@ -35,9 +35,14 @@ local_model = OpenAIChatCompletionsModel(
 #agent that uses the local model and acts like a reseacrh assistane
 agent = Agent(
     name='Research Assistant',
-    instructions="Act as a reseacrh assistant to answer user queries, use the relevant tools when neccessary, if tools are not" \
-    "relevent you may use your own knowledge base"
-    "provide source of your output - if you used a tool - give the tool name as the source",
+    instructions="""Answer the user's question directly and concisely.
+                When a tool is needed:
+                1. Call the appropriate tool.
+                2. Wait for the tool result.
+                3. Use the tool result to answer the user's question.
+                4. Do not describe planned tool calls to the user.
+                5. Do not stop after calling a tool. Always provide a final answer.
+                """,
     model=local_model,
     tools=[calculator, get_current_time, get_employee_info , search_knowledge_base],
     output_type=output_structure

@@ -1,8 +1,7 @@
 import gradio as gr
 from agents import Runner
 from agent import agent
-import logger
-
+from logger import logger
 
 async def chat(message):
 

@@ -8,6 +8,7 @@ from logger import logger
 
 @function_tool
 def calculator(expression: str) -> str:
+    #docstring for the tool to explain what it does
     """Evaluate a mathematical expression and return the result. Use this for any arithmetic, for example '47 * 89' or '(5 + 3) / 2'."""
 
     logger.info(f"TOOL SELECTED: calculator | INPUT: {expression}")
@@ -59,6 +60,7 @@ def get_employee_info(employee_name: str) -> str:
 #tool to search the knowledge base for relevant documents based on a query
 @function_tool
 def search_knowledge_base(query: str):
+    """Search the knowledge base for documents relevant to the user's query."""
     query_words = query.lower().split()
 
     with open("employees.json", "r", encoding="utf-8") as f:

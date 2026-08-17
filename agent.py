@@ -26,6 +26,7 @@ from tools import search_knowledge_base
 from pydantic import BaseModel
 
 
+
 #pydantic model to store guardrail agent's output
 class guardrail_output(BaseModel):
     is_correct_input : bool
@@ -51,7 +52,7 @@ local_model = OpenAIChatCompletionsModel(
 #agent to make decisions about input prompts
 guardrail_agent = Agent(
     name='Input Guardrail',
-    instructions="detect whether the prompt asks for one of the following : math equations, current date and time ,professional information about employess",
+    instructions="detect whether the prompt asks for one of the following : math equations, current date and time ,only professional/workplace information about employees, never personal or family details. /no_think",
     model=local_model,
     output_type=guardrail_output
 )
@@ -59,24 +60,23 @@ guardrail_agent = Agent(
 @input_guardrail
 async def input_guardrail(
     ctx: RunContextWrapper[None],
+    agent: Agent,
     input: str | list[TResponseInputItem],
 
 ) -> GuardrailFunctionOutput:
     result = await Runner.run(guardrail_agent, input, context=ctx.context)
     return GuardrailFunctionOutput(
         output_info=result.final_output,
-        tripwire_triggered=result.final_output.is_correct_input,
+        tripwire_triggered= not result.final_output.is_correct_input,
     )
-
-
 
 #agent that uses the local model and acts like a reseacrh assistane
 agent = Agent(
     name='Research Assistant',
     instructions="Act as an experienced research assistant,analyze the user's prompt and provide a dedicated researched answer with relevent sources u got " \
-    "the information from , DONT TRY TO DO EVERYTHING YOURSELF, USE A TOOL IF IT FITS THE SCENARIO",
+    "the information from , DONT TRY TO DO EVERYTHING YOURSELF, USE A TOOL IF IT FITS THE SCENARIO /no_think",
     model=local_model,
     tools=[calculator, get_current_time, get_employee_info , search_knowledge_base],
-    input_guardrail=[input_guardrail]
+    input_guardrails=[input_guardrail]
     )
 

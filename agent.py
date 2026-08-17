@@ -52,7 +52,7 @@ local_model = OpenAIChatCompletionsModel(
 #agent to make decisions about input prompts
 guardrail_agent = Agent(
     name='Input Guardrail',
-    instructions="detect whether the prompt asks for one of the following : math equations, current date and time ,only professional/workplace information about employees, never personal or family details. /no_think",
+    instructions="detect whether the prompt asks for one of the following : math equations, current date and time ,only professional/workplace information about employees, never personal or family details. ""/no_think",
     model=local_model,
     output_type=guardrail_output
 )

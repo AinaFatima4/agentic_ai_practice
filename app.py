@@ -24,7 +24,6 @@ async def chat(message, history):
 
 demo = gr.ChatInterface(
     fn=chat,
-    type="messages",
     title="AI Research Assistant",
     description="Ask a question and let the agent find the answer.",
 )

@@ -6,9 +6,6 @@ from datetime import datetime
 from logger import logger
 
 
-
-
-
 @function_tool
 def calculator(expression: str) -> str:
     """Evaluate a mathematical expression and return the result. Use this for any arithmetic, for example '47 * 89' or '(5 + 3) / 2'."""
